@@ -1,28 +1,67 @@
 {
-  "id": "6c018349-3c37-448a-958a-0490752bb2f2",
+  "id": "f9577552-fd4b-46dd-90a8-068eef7e54d5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.admins": {
+      "name": "admins",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(20)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "admins_email_unique": {
+          "name": "admins_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.cart_items": {
       "name": "cart_items",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
         "cart_id": {
           "name": "cart_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
         "product_id": {
           "name": "product_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -82,13 +121,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -135,19 +174,19 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
         "order_id": {
           "name": "order_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
         "product_id": {
           "name": "product_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -206,13 +245,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -284,7 +323,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
@@ -300,8 +339,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "price_cents": {
-          "name": "price_cents",
+        "price": {
+          "name": "price",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -314,7 +353,7 @@
         },
         "category_id": {
           "name": "category_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
@@ -382,7 +421,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
@@ -392,9 +431,16 @@
           "primaryKey": false,
           "notNull": true
         },
+        "sub_category": {
+          "name": "sub_category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'[]'"
+        },
         "parent_id": {
           "name": "parent_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
@@ -433,7 +479,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
@@ -449,18 +495,17 @@
           "primaryKey": false,
           "notNull": true
         },
+        "mobile_no": {
+          "name": "mobile_no",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "password": {
           "name": "password",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "is_admin": {
-          "name": "is_admin",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -480,6 +525,13 @@
           "columns": [
             "email"
           ]
+        },
+        "users_mobile_no_unique": {
+          "name": "users_mobile_no_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "mobile_no"
+          ]
         }
       },
       "policies": {},
@@ -492,19 +544,19 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(20)",
           "primaryKey": true,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
         "product_id": {
           "name": "product_id",
-          "type": "integer",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },

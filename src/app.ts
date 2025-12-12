@@ -11,6 +11,7 @@ import categoryRoutes from "./modules/productCategory/category.route";
 
 import { testDbConnection } from "../src/config/db";
 import productRoutes from "./modules/product/product.route";
+import userRoutes from "./modules/user/user.routes";
 
 export async function buildApp() {
   const app = Fastify();
@@ -18,7 +19,7 @@ export async function buildApp() {
   app.register(swaggerPlugin);
 
   app.register(cors, {
-    origin: process.env.FORTEND_URL,
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // allows cookies or credentials
@@ -45,6 +46,8 @@ export async function buildApp() {
   app.register(adminRoutes);
   app.register(categoryRoutes);
   app.register(productRoutes);
+
+  app.register(userRoutes)
 
   return app;
 }

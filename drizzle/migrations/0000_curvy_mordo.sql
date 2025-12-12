@@ -1,29 +1,36 @@
+CREATE TABLE "admins" (
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"password" text NOT NULL,
+	CONSTRAINT "admins_email_unique" UNIQUE("email")
+);
+--> statement-breakpoint
 CREATE TABLE "cart_items" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"cart_id" integer NOT NULL,
-	"product_id" integer NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"cart_id" varchar(20) NOT NULL,
+	"product_id" varchar(20) NOT NULL,
 	"qty" integer DEFAULT 1 NOT NULL,
 	"added_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "carts" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"user_id" varchar(20) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "order_items" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"order_id" integer NOT NULL,
-	"product_id" integer NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"order_id" varchar(20) NOT NULL,
+	"product_id" varchar(20) NOT NULL,
 	"qty" integer DEFAULT 1 NOT NULL,
 	"unit_price_cents" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "orders" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"user_id" varchar(20) NOT NULL,
 	"total_cents" integer NOT NULL,
 	"status" varchar(50) DEFAULT 'pending' NOT NULL,
 	"shipping_address" text,
@@ -33,12 +40,12 @@ CREATE TABLE "orders" (
 );
 --> statement-breakpoint
 CREATE TABLE "products" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
 	"product_name" varchar(500) NOT NULL,
 	"description" text,
-	"price_cents" integer NOT NULL,
+	"price" integer NOT NULL,
 	"discount_price" integer,
-	"category_id" integer,
+	"category_id" varchar(20),
 	"images_json" text DEFAULT '[]' NOT NULL,
 	"product_colors" json DEFAULT '[]' NOT NULL,
 	"stock" integer DEFAULT 0 NOT NULL,
@@ -47,26 +54,28 @@ CREATE TABLE "products" (
 );
 --> statement-breakpoint
 CREATE TABLE "categories" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
 	"category_name" varchar(255) NOT NULL,
-	"parent_id" integer,
+	"sub_category" text DEFAULT '[]',
+	"parent_id" varchar(20),
 	"category_desc" varchar(500) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"email" varchar(320) NOT NULL,
+	"mobile_no" varchar(10) NOT NULL,
 	"password" text NOT NULL,
-	"is_admin" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "users_email_unique" UNIQUE("email")
+	CONSTRAINT "users_email_unique" UNIQUE("email"),
+	CONSTRAINT "users_mobile_no_unique" UNIQUE("mobile_no")
 );
 --> statement-breakpoint
 CREATE TABLE "wishlist" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
-	"product_id" integer NOT NULL,
+	"id" varchar(20) PRIMARY KEY NOT NULL,
+	"user_id" varchar(20) NOT NULL,
+	"product_id" varchar(20) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint

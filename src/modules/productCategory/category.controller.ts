@@ -2,12 +2,16 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { db } from "../../config/db";
 import { categories } from "./category.schema";
 import { eq } from "drizzle-orm";
+import { generateCustomId } from "../../plugins/IdGenerate";
 
 export const createCategoryHandler = async (
-  req: FastifyRequest<{ Body: { name: string; description: string } }>,
+  req: FastifyRequest<{
+    Body: { name: string; description: string; sub_Cat: string[] };
+  }>,
   reply: FastifyReply
 ) => {
-  const { name, description } = req.body;
+  const { name, description, sub_Cat } = req.body;
+
 
   const exists = await db
     .select()
@@ -16,14 +20,19 @@ export const createCategoryHandler = async (
     .limit(1);
 
   if (exists.length > 0) {
-    return reply.status(400).send({ msg: "Category already exists" });
+    return reply.status(400).send({ message: "Category already exists" });
   }
 
-  await db
-    .insert(categories)
-    .values({ category_name: name, category_desc: description });
+  const newID = await generateCustomId(db,categories,"CAT");
 
-  reply.send({ msg: "Category created successfully" });
+  await db.insert(categories).values({
+    id: newID,
+    category_name: name,
+    category_desc: description,
+    sub_category: JSON.stringify(sub_Cat),
+  });
+
+  reply.send({ message: "Category created successfully" });
 };
 
 export const getCategoriesHandler = async () => {

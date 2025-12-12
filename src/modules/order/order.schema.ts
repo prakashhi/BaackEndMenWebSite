@@ -1,13 +1,13 @@
-import { pgTable, serial, integer, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, varchar, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { users } from "../user/user.schema";
 import { products } from "../product/product.schema";
 
 export const orders = pgTable("orders", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 20 }).primaryKey(),
 
   // User who made the order
-  user_id: integer("user_id").references(() => users.id).notNull(),
+  user_id: varchar("user_id", { length: 20 }).references(() => users.id).notNull(),
 
   // Total price in cents
   total_Amount: integer("total_cents").notNull(),
@@ -26,13 +26,13 @@ export const orders = pgTable("orders", {
 });
 
 export const orderItems = pgTable("order_items", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 20 }).primaryKey(),
 
   // Link to order
-  order_id: integer("order_id").references(() => orders.id).notNull(),
+  order_id: varchar("order_id", { length: 20 }).references(() => orders.id).notNull(),
 
   // Link to product
-  product_id: integer("product_id").references(() => products.id).notNull(),
+  product_id: varchar("product_id", { length: 20 }).references(() => products.id).notNull(),
 
   qty: integer("qty").notNull().default(1),
 
